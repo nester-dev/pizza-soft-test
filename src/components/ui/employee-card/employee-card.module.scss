@@ -1,0 +1,33 @@
+.card {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 24px;
+  background: var(--main-bg);
+  cursor: pointer;
+  color: var(--main-black);
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &_info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    row-gap: 5px;
+  }
+
+  & span {
+    font-size: 14px;
+    line-height: 145%;
+    color: var(--gray-20);
+  }
+}
+
+
+.icon {
+  width: 80px;
+  height: 80px;
+  fill: var(--stroke);
+}
