@@ -26,20 +26,20 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
 
-      'prettier/prettier': [
-        'error',
-        {
-          endOfLine: 'auto',
-          singleQuote: true,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          arrowParens: 'avoid',
-          jsxSingleQuote: true,
-          printWidth: 120,
-          tabWidth: 2,
-          useTabs: false,
-        },
-      ],
+      // 'prettier/prettier': [
+      //   'error',
+      //   {
+      //     endOfLine: 'auto',
+      //     singleQuote: true,
+      //     trailingComma: 'es5',
+      //     bracketSpacing: true,
+      //     arrowParens: 'avoid',
+      //     jsxSingleQuote: true,
+      //     printWidth: 120,
+      //     tabWidth: 2,
+      //     useTabs: false,
+      //   },
+      // ],
     },
   }
 );
