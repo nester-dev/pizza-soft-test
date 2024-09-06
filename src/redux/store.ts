@@ -1,31 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SORTING_TYPES } from '@/shared/types';
-import { Employee } from '@/shared/types/employee.interface.ts';
-import { sortEmployees } from '@/utils/sort.ts';
+import { FilterOptions, SORTING_TYPES } from '@/shared/types';
+import { Employee, ROLES_TYPES } from '@/shared/types/employee.interface.ts';
+import { filterEmployees } from '@/utils/filter-employees.ts';
 
 type StoreInitialState = {
   employees: Employee[];
   filteredEmployees: Employee[];
-  sorting: SORTING_TYPES;
+  filterOptions: FilterOptions;
 };
 
 const initialState: StoreInitialState = {
   employees: [],
   filteredEmployees: [],
-  sorting: SORTING_TYPES.NAME_ASC,
+  filterOptions: {
+    sorting: SORTING_TYPES.NAME_ASC,
+    position: ROLES_TYPES.ALL,
+    archived: false,
+  },
 };
 
 const storeSlice = createSlice({
   name: 'mainStore',
   initialState: initialState,
   reducers: {
-    setSorting: (state, action: PayloadAction<SORTING_TYPES>) => {
-      if (state.sorting === action.payload) {
-        return;
-      }
-
-      state.sorting = action.payload;
-      state.filteredEmployees = sortEmployees(action.payload, state.employees);
+    setFilterOptions: (state, action: PayloadAction<FilterOptions>) => {
+      const filteredEmployees = filterEmployees(
+        state.employees,
+        action.payload
+      );
+      state.filterOptions = action.payload;
+      state.filteredEmployees = filteredEmployees;
     },
     setEmployees: (state, action: PayloadAction<Employee[]>) => {
       state.employees = action.payload;
@@ -38,5 +42,5 @@ const storeSlice = createSlice({
 
 export default storeSlice.reducer;
 
-export const { setSorting, setEmployees, setFilteredEmployees } =
+export const { setFilterOptions, setEmployees, setFilteredEmployees } =
   storeSlice.actions;

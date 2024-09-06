@@ -4,3 +4,5 @@ export { default as Dropdown } from './ui/dropdown/dropdown.tsx';
 export { default as EmployeesList } from './ui/employees-list/employees-list.tsx';
 export { default as EmployeeCard } from './ui/employee-card/employee-card.tsx';
 export { default as Aside } from './layout/aside/aside.tsx';
+export { default as FieldControl } from './ui/form/field-control/field-control.tsx';
+export { default as Toggle } from './ui/form/toggle/toggle.tsx';

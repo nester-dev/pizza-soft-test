@@ -1,30 +1,26 @@
-import { FC, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import DropdownSelect from './components/dropdown-select.tsx';
 import cn from 'clsx';
 import styles from './dropdown.module.scss';
 import { useClickOutside } from '@/hooks/useClickOutside.ts';
-import { SelectOption, SORTING_TYPES } from '@/shared/types';
-import { useAppDispatch } from '@/redux/configure-store.ts';
-import { setSorting } from '@/redux/store.ts';
+import { SelectOption } from '@/shared/types';
 
-type Props = {
-  options: SelectOption<SORTING_TYPES>[];
-};
+interface Props<T> {
+  options: SelectOption<T>[];
+  onSelect: (value: SelectOption<T>) => void;
+}
 
-const Dropdown: FC<Props> = ({ options }) => {
-  const dispatch = useAppDispatch();
+function Dropdown<T>({ options, onSelect }: Props<T>) {
   const [menuShow, setMenuShow] = useState(false);
-  const [selected, setSelected] = useState<SelectOption<SORTING_TYPES>>(
-    options[0]
-  );
+  const [selected, setSelected] = useState<SelectOption<T>>(options[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = () => {
     setMenuShow(false);
   };
 
-  const selectOption = (element: SelectOption<SORTING_TYPES>) => {
-    dispatch(setSorting(element.value));
+  const selectOption = (element: SelectOption<T>) => {
+    onSelect(element);
     setSelected(element);
     setMenuShow((prev) => !prev);
   };
@@ -50,6 +46,6 @@ const Dropdown: FC<Props> = ({ options }) => {
       </ul>
     </div>
   );
-};
+}
 
 export default Dropdown;
