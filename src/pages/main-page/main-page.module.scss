@@ -13,3 +13,11 @@
   letter-spacing: 0.01em;
   color: var(--main-black);
 }
+
+.content {
+  position: relative;
+  display: flex;
+  margin-top: 25px;
+  width: 100%;
+  column-gap: 15px;
+}

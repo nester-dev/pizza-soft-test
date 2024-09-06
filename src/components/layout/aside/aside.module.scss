@@ -1,0 +1,9 @@
+.wrapper {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  width: 30%;
+  row-gap: 15px;
+  top: 10px;
+}

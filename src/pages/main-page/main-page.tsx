@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './main-page.module.scss';
-import { Dropdown, EmployeesList } from '@/components';
+import { Aside, EmployeesList } from '@/components';
 
 const MainPage: FC = () => {
   return (
@@ -13,9 +13,10 @@ const MainPage: FC = () => {
         them! 👇
       </p>
 
-      <Dropdown options={['Имя', 'Год рождения']} />
-
-      <EmployeesList />
+      <div className={styles.content}>
+        <Aside />
+        <EmployeesList />
+      </div>
     </div>
   );
 };
