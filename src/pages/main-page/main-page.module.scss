@@ -20,4 +20,9 @@
   margin-top: 25px;
   width: 100%;
   column-gap: 15px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 15px;
+  }
 }

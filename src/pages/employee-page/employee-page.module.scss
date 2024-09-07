@@ -3,6 +3,10 @@
   flex-direction: column;
   row-gap: 30px;
   max-width: 50%;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 }
 
 .label {
