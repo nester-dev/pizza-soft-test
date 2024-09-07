@@ -14,7 +14,7 @@ const EmployeePage: FC = () => {
         <span className={styles.label}>Edit employee:</span> {data?.name}
       </h1>
 
-      <EmployeeForm />
+      <EmployeeForm initialValues={data} />
     </div>
   );
 };

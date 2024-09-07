@@ -1,36 +1,45 @@
-import { FC, InputHTMLAttributes, useRef } from 'react';
+import {
+  forwardRef,
+  InputHTMLAttributes,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import styles from './toggle.module.scss';
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
-  onToggle: (value: boolean) => void;
+  onToggle?: (value: boolean) => void;
 };
 
-const Toggle: FC<Props> = ({ name, onToggle, ...rest }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const Toggle = forwardRef<HTMLInputElement, Props>(
+  ({ name, onToggle, ...props }, ref) => {
+    const innerRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (isChecked: boolean) => {
-    onToggle(isChecked);
-  };
+    useImperativeHandle(ref, () => innerRef.current!, []);
 
-  return (
-    <label
-      role="presentation"
-      className={styles.label}
-      htmlFor={name}
-      onClick={() => inputRef.current?.click()}
-    >
-      <input
-        ref={inputRef}
-        name={name}
-        type="checkbox"
-        className={styles.input}
-        onChange={(e) => handleChange(e.target.checked)}
-        {...rest}
-      />
-      <div className={styles.toggle} />
-    </label>
-  );
-};
+    const handleChange = (isChecked: boolean) => {
+      onToggle?.(isChecked);
+    };
+
+    return (
+      <label
+        role="presentation"
+        className={styles.label}
+        htmlFor={name}
+        onClick={() => innerRef.current?.click()}
+      >
+        <input
+          ref={innerRef}
+          name={name}
+          type="checkbox"
+          className={styles.input}
+          onChange={(e) => handleChange(e.target.checked)}
+          {...props}
+        />
+        <div className={styles.toggle} />
+      </label>
+    );
+  }
+);
 
 export default Toggle;

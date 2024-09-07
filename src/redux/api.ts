@@ -3,6 +3,7 @@ import { Employee } from '@/shared/types/employee.interface.ts';
 import { setEmployees, setFilteredEmployees } from '@/redux/store.ts';
 import { SORTING_TYPES } from '@/shared/types';
 import { sortEmployees } from '@/utils/sort.ts';
+import fs from 'vite-plugin-fs/browser';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -24,13 +25,42 @@ export const api = createApi({
       },
     }),
 
-    getEmployeeById: builder.query<Employee, string>({
+    getEmployeeById: builder.query<Employee | undefined, string>({
       query: () => import.meta.env.VITE_API_URL,
       transformResponse: (response: Employee[], _, arg) => {
         return response?.find((elem) => elem.id === Number(arg));
       },
     }),
+
+    editEmployee: builder.mutation<void, Employee>({
+      query: () => import.meta.env.VITE_API_URL,
+      transformResponse: async (response: void, _, arg) => {
+        try {
+          const data = await fs.readFile(import.meta.env.VITE_API_URL);
+          const employees: Employee[] = JSON.parse(data);
+
+          const employee = employees.find((elem) => elem.id === Number(arg.id));
+
+          if (employee) {
+            Object.assign(employee, arg);
+
+            await fs.writeFile(
+              import.meta.env.VITE_API_URL,
+              JSON.stringify(employees)
+            );
+          }
+        } catch (e) {
+          console.log(e);
+        }
+
+        return response;
+      },
+    }),
   }),
 });
 
-export const { useGetEmployeesQuery, useGetEmployeeByIdQuery } = api;
+export const {
+  useGetEmployeesQuery,
+  useGetEmployeeByIdQuery,
+  useEditEmployeeMutation,
+} = api;

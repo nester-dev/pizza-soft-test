@@ -16,4 +16,5 @@ export const employeeSchema = z.object({
     .string({ required_error: 'Birthday is required' })
     .regex(BIRTHDAY_REGEXP, 'Invalid birthday'),
   role: z.string({ required_error: 'Position is required' }),
+  isArchive: z.boolean(),
 });
