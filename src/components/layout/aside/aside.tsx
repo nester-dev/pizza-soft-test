@@ -1,16 +1,23 @@
 import { FC } from 'react';
-import { Dropdown, FieldControl, Toggle } from '@/components';
-import styles from './aside.module.scss';
+import {
+  Button,
+  CreateEmployeeModal,
+  Dropdown,
+  FieldControl,
+  Toggle,
+} from '@/components';
 import { POSITION_OPTIONS, SORTING_OPTIONS } from '@/shared/constants.ts';
 import { useAppDispatch, useAppSelector } from '@/redux/configure-store.ts';
 import { SelectOption, SORTING_TYPES } from '@/shared/types';
-import { setFilterOptions } from '@/redux/store.ts';
+import { setFilterOptions, setShowModal } from '@/redux/store.ts';
 import { ROLES_TYPES } from '@/shared/types/employee.interface.ts';
+import styles from './aside.module.scss';
 
 const Aside: FC = () => {
   const filterOptions = useAppSelector(
     (state) => state.mainStore.filterOptions
   );
+  const showModal = useAppSelector((state) => state.mainStore.showModal);
   const dispatch = useAppDispatch();
 
   const handleSortingSelect = (option: SelectOption<SORTING_TYPES>) => {
@@ -59,6 +66,13 @@ const Aside: FC = () => {
       <FieldControl label="In Archive:">
         <Toggle name="archived" onToggle={handleToggle} />
       </FieldControl>
+
+      <Button onClick={() => dispatch(setShowModal(true))}>Add Employee</Button>
+
+      <CreateEmployeeModal
+        onClose={() => dispatch(setShowModal(false))}
+        showModal={showModal}
+      />
     </aside>
   );
 };

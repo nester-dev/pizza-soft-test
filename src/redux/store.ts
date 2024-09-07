@@ -1,22 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FilterOptions, SORTING_TYPES } from '@/shared/types';
-import { Employee, ROLES_TYPES } from '@/shared/types/employee.interface.ts';
-import { filterEmployees } from '@/utils/filter-employees.ts';
+import { ROLES_TYPES } from '@/shared/types/employee.interface.ts';
 
 type StoreInitialState = {
-  employees: Employee[];
-  filteredEmployees: Employee[];
   filterOptions: FilterOptions;
+  showModal: boolean;
 };
 
 const initialState: StoreInitialState = {
-  employees: [],
-  filteredEmployees: [],
   filterOptions: {
     sorting: SORTING_TYPES.NAME_ASC,
     position: ROLES_TYPES.ALL,
     archived: false,
   },
+  showModal: false,
 };
 
 const storeSlice = createSlice({
@@ -24,23 +21,14 @@ const storeSlice = createSlice({
   initialState: initialState,
   reducers: {
     setFilterOptions: (state, action: PayloadAction<FilterOptions>) => {
-      const filteredEmployees = filterEmployees(
-        state.employees,
-        action.payload
-      );
       state.filterOptions = action.payload;
-      state.filteredEmployees = filteredEmployees;
     },
-    setEmployees: (state, action: PayloadAction<Employee[]>) => {
-      state.employees = action.payload;
-    },
-    setFilteredEmployees: (state, action: PayloadAction<Employee[]>) => {
-      state.filteredEmployees = action.payload;
+    setShowModal: (state, action: PayloadAction<boolean>) => {
+      state.showModal = action.payload;
     },
   },
 });
 
 export default storeSlice.reducer;
 
-export const { setFilterOptions, setEmployees, setFilteredEmployees } =
-  storeSlice.actions;
+export const { setFilterOptions, setShowModal } = storeSlice.actions;

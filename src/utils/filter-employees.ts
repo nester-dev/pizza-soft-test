@@ -3,9 +3,13 @@ import { sortEmployees } from '@/utils/sort.ts';
 import { FilterOptions } from '@/shared/types';
 
 export const filterEmployees = (
-  employees: Employee[],
+  employees: Employee[] | undefined,
   filterOptions: FilterOptions
 ) => {
+  if (!employees) {
+    return [];
+  }
+
   const { position, sorting, archived } = filterOptions;
   let filteredEmployees = [...employees];
 

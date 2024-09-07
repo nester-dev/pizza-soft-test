@@ -1,16 +1,22 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useGetEmployeesQuery } from '@/redux/api.ts';
 import { EmployeeCard } from '@/components';
 import styles from './employees-list.module.scss';
 import { useAppSelector } from '@/redux/configure-store.ts';
 import { useNavigate } from 'react-router-dom';
 import { RoutesPaths } from '@/routes/paths.config.ts';
+import { filterEmployees } from '@/utils/filter-employees.ts';
 
 const EmployeesList: FC = () => {
-  useGetEmployeesQuery();
+  const { data } = useGetEmployeesQuery();
   const navigate = useNavigate();
-  const employees = useAppSelector(
-    (state) => state.mainStore.filteredEmployees
+  const filterOptions = useAppSelector(
+    (state) => state.mainStore.filterOptions
+  );
+
+  const filteredEmployees = useMemo(
+    () => filterEmployees(data, filterOptions),
+    [data, filterOptions]
   );
 
   const handleCardClick = (id: number) => {
@@ -19,7 +25,7 @@ const EmployeesList: FC = () => {
 
   return (
     <ul className={styles.wrapper}>
-      {employees?.map((elem) => (
+      {filteredEmployees?.map((elem) => (
         <EmployeeCard key={elem.id} {...elem} onClick={handleCardClick} />
       ))}
     </ul>

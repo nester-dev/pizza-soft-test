@@ -6,19 +6,27 @@ import { EmployeeFormFields } from '@/components/layout/employee-form/types.ts';
 import { Button, Dropdown, Toggle } from '@/components';
 import { POSITION_OPTIONS } from '@/shared/constants.ts';
 import { employeeSchema } from '@/components/layout/employee-form/employee-form.schema.ts';
-import { useEditEmployeeMutation } from '@/redux/api.ts';
-import { useParams } from 'react-router-dom';
+import {
+  useCreateEmployeeMutation,
+  useEditEmployeeMutation,
+} from '@/redux/api.ts';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Employee } from '@/shared/types/employee.interface.ts';
 import styles from './employee-form.module.scss';
+import { setShowModal } from '@/redux/store.ts';
+import { useAppDispatch } from '@/redux/configure-store.ts';
+import { RoutesPaths } from '@/routes/paths.config.ts';
 
 type Props = {
   initialValues?: Omit<Employee, 'id'>;
+  type?: 'create' | 'edit';
 };
 
-const EmployeeForm: FC<Props> = ({ initialValues }) => {
+const EmployeeForm: FC<Props> = ({ initialValues, type = 'edit' }) => {
   const params = useParams<{ employeeId: string }>();
   const roleOptions = useMemo(() => POSITION_OPTIONS.slice(1), []);
-  const [mutate] = useEditEmployeeMutation();
+  const [editMutation] = useEditEmployeeMutation();
+  const [createMutation] = useCreateEmployeeMutation();
   const {
     setValue,
     control,
@@ -30,6 +38,8 @@ const EmployeeForm: FC<Props> = ({ initialValues }) => {
     resolver: zodResolver(employeeSchema),
     defaultValues: { role: roleOptions[0].value },
   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (initialValues) {
@@ -38,11 +48,20 @@ const EmployeeForm: FC<Props> = ({ initialValues }) => {
   }, [initialValues, reset]);
 
   const onSubmit: SubmitHandler<EmployeeFormFields> = (data) => {
-    if (params.employeeId) {
-      mutate({
+    if (params.employeeId && type === 'edit') {
+      editMutation({
         id: Number(params.employeeId),
         ...data,
       });
+      navigate(RoutesPaths.MAIN);
+    }
+
+    if (type === 'create') {
+      createMutation({
+        ...data,
+        id: Date.now(),
+      });
+      dispatch(setShowModal(false));
     }
   };
 
@@ -82,7 +101,9 @@ const EmployeeForm: FC<Props> = ({ initialValues }) => {
 
       <Toggle {...register('isArchive')} />
 
-      <Button onClick={handleSubmit(onSubmit)}>Save</Button>
+      <Button onClick={handleSubmit(onSubmit)}>
+        {type === 'create' ? 'Add' : 'Save'}
+      </Button>
     </form>
   );
 };

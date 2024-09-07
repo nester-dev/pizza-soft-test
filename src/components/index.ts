@@ -8,3 +8,4 @@ export { default as FieldControl } from './ui/form/field-control/field-control.t
 export { default as Toggle } from './ui/form/toggle/toggle.tsx';
 export { default as EmployeeForm } from './layout/employee-form/employee-form.tsx';
 export { default as Button } from './ui/button/button.tsx';
+export { default as CreateEmployeeModal } from './ui/modals/components/create-employee-modal.tsx';

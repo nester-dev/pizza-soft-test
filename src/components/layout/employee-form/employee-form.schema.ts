@@ -7,7 +7,7 @@ export const employeeSchema = z.object({
       required_error: 'Name is required',
     })
     .min(5, 'Name must be at least 5 characters long'),
-  phoneNumber: z
+  phone: z
     .string({
       required_error: 'Phone number is required',
     })
