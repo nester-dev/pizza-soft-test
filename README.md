@@ -1,4 +1,4 @@
-# Stream Energy test assigment
+# Pizza Soft test assigment
 
 - create .env in the root folder
 - add base url to .env
