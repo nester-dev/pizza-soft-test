@@ -7,11 +7,11 @@ import { sortEmployees } from '@/utils/sort.ts';
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
+    baseUrl: '/',
   }),
   endpoints: (builder) => ({
     getEmployees: builder.query<Employee[], void>({
-      query: () => '',
+      query: () => import.meta.env.VITE_API_URL,
       onCacheEntryAdded: async (_, { cacheDataLoaded, dispatch }) => {
         try {
           const { data } = await cacheDataLoaded;
@@ -23,7 +23,14 @@ export const api = createApi({
         }
       },
     }),
+
+    getEmployeeById: builder.query<Employee, string>({
+      query: () => import.meta.env.VITE_API_URL,
+      transformResponse: (response: Employee[], _, arg) => {
+        return response?.find((elem) => elem.id === Number(arg));
+      },
+    }),
   }),
 });
 
-export const { useGetEmployeesQuery } = api;
+export const { useGetEmployeesQuery, useGetEmployeeByIdQuery } = api;

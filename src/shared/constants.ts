@@ -44,3 +44,5 @@ export const POSITION_OPTIONS = [
 ];
 
 export const BIRTHDAY_FORMAT = 'dd.MM.yyyy';
+export const PHONE_NUMBER_REGEXP = /^\+7 \(\d{3}\) \d{3}-\d{4}$/;
+export const BIRTHDAY_REGEXP = /^\d{2}\.\d{2}\.\d{4}$/;

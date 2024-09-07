@@ -1,3 +1,4 @@
 export enum RoutesPaths {
-	MAIN = '/',
+  MAIN = '/',
+  EMPLOYEES = '/employees',
 }

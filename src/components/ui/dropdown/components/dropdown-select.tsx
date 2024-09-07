@@ -13,6 +13,7 @@ const DropdownSelect: FC<Props> = ({ selected, menuShow, setMenuShow }) => {
     <button
       className={cn(styles.select, menuShow && styles.select_clicked)}
       onClick={() => setMenuShow((prev) => !prev)}
+      type="button"
     >
       <span className={styles.selected}>{selected}</span>
 
